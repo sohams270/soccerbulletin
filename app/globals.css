@@ -597,7 +597,7 @@ img {
   object-position: center;
   display: block;
 }
-.team-pill span {
+.team-pill span:not(.team-crest) {
   font-size: 11px;
   color: var(--ink-soft);
   line-height: 1.2;
