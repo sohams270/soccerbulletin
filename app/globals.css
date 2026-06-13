@@ -277,8 +277,7 @@ img {
 
 /* ---------- Welcome banner ---------- */
 .welcome {
-  --fx-a: rgba(0, 0, 0, 0.07);
-  --fx-b: rgba(0, 0, 0, 0.05);
+  --fx-net: rgba(0, 0, 0, 0.07);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -290,28 +289,27 @@ img {
   margin: 24px 0;
 }
 [data-theme="dark"] .welcome {
-  --fx-a: rgba(255, 255, 255, 0.09);
-  --fx-b: rgba(255, 255, 255, 0.06);
+  --fx-net: rgba(255, 255, 255, 0.08);
 }
-/* Slow drifting greyscale light */
+/* Rippling goal-net mesh */
 .welcome::before {
   content: "";
   position: absolute;
-  inset: -30%;
+  inset: -25%;
   z-index: -1;
-  background:
-    radial-gradient(38% 55% at 25% 35%, var(--fx-a), transparent 60%),
-    radial-gradient(42% 60% at 80% 60%, var(--fx-b), transparent 60%),
-    radial-gradient(50% 70% at 55% 90%, var(--fx-a), transparent 65%);
-  animation: sb-drift 22s ease-in-out infinite alternate;
+  background-image:
+    repeating-linear-gradient(45deg, transparent 0 17px, var(--fx-net) 17px 18px),
+    repeating-linear-gradient(-45deg, transparent 0 17px, var(--fx-net) 17px 18px);
+  transform-origin: center;
+  animation: sb-ripple 7s ease-in-out infinite alternate;
   will-change: transform;
 }
-@keyframes sb-drift {
+@keyframes sb-ripple {
   from {
-    transform: translate(-5%, -4%) scale(1);
+    transform: skewX(-2.5deg) translateY(-1%) scaleY(1);
   }
   to {
-    transform: translate(5%, 4%) scale(1.12);
+    transform: skewX(2.5deg) translateY(1%) scaleY(1.05);
   }
 }
 @media (prefers-reduced-motion: reduce) {
