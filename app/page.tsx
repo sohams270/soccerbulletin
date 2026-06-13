@@ -9,6 +9,15 @@ import { timeAgo } from "@/lib/format";
 // new article is published (revalidateTag("articles") / revalidatePath("/")).
 export const revalidate = 60; // REVALIDATE.home
 
+// Categories that map to a national flag (file: /public/flags/<slug>.svg).
+const FLAG_SLUGS = new Set([
+  "premier-league",
+  "la-liga",
+  "bundesliga",
+  "ligue-1",
+  "saudi-pro-league",
+]);
+
 export default async function HomePage() {
   const [latest, ...categoryArticles] = await Promise.all([
     getLatestArticles(20),
@@ -141,10 +150,16 @@ function CategoryStrip({
   articles: Awaited<ReturnType<typeof getLatestArticles>>;
 }) {
   if (articles.length === 0) return null;
+  const hasFlag = FLAG_SLUGS.has(slug);
   return (
     <section style={{ marginBottom: 36 }}>
       <div className="section-head">
-        <h2>{title}</h2>
+        <h2>
+          {hasFlag && (
+            <img className="flag" src={`/flags/${slug}.svg`} alt="" aria-hidden />
+          )}
+          {title}
+        </h2>
         <Link href={`/category/${slug}`} className="see-all">
           See all →
         </Link>

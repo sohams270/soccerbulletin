@@ -365,6 +365,15 @@ img {
   font-weight: 800;
   margin: 0;
 }
+.section-head h2 .flag {
+  width: 26px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 3px;
+  margin-right: 9px;
+  vertical-align: -2px;
+  border: 1px solid var(--line);
+}
 .section-head .see-all {
   color: var(--brand);
   font-size: 13px;
