@@ -277,7 +277,7 @@ img {
 
 /* ---------- Welcome banner ---------- */
 .welcome {
-  --fx-ball: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Ccircle%20cx='32'%20cy='32'%20r='29'%20fill='none'%20stroke='%23000'%20stroke-width='2.4'/%3E%3Cpolygon%20points='32,17%2044,26%2039,40%2025,40%2020,26'%20fill='%23000'/%3E%3Cpath%20d='M32%203V17M61%2024L44%2026M48%2058L39%2040M16%2058L25%2040M3%2024L20%2026'%20stroke='%23000'%20stroke-width='2.4'%20fill='none'/%3E%3C/svg%3E");
+  --fx-hex: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='28'%20height='49'%20viewBox='0%200%2028%2049'%3E%3Cg%20fill-rule='evenodd'%3E%3Cg%20fill='%23000'%3E%3Cpath%20d='M13.99%209.25l13%207.5v15l-13%207.5L1%2031.75v-15l12.99-7.5zM3%2017.9v12.7l11%206.35%2011-6.35V17.9l-11-6.35L3%2017.9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   --fx-glow: rgba(0, 0, 0, 0.06);
   position: relative;
   isolation: isolate;
@@ -290,19 +290,19 @@ img {
   margin: 24px 0;
 }
 [data-theme="dark"] .welcome {
-  --fx-ball: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Ccircle%20cx='32'%20cy='32'%20r='29'%20fill='none'%20stroke='%23fff'%20stroke-width='2.4'/%3E%3Cpolygon%20points='32,17%2044,26%2039,40%2025,40%2020,26'%20fill='%23fff'/%3E%3Cpath%20d='M32%203V17M61%2024L44%2026M48%2058L39%2040M16%2058L25%2040M3%2024L20%2026'%20stroke='%23fff'%20stroke-width='2.4'%20fill='none'/%3E%3C/svg%3E");
+  --fx-hex: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='28'%20height='49'%20viewBox='0%200%2028%2049'%3E%3Cg%20fill-rule='evenodd'%3E%3Cg%20fill='%23fff'%3E%3Cpath%20d='M13.99%209.25l13%207.5v15l-13%207.5L1%2031.75v-15l12.99-7.5zM3%2017.9v12.7l11%206.35%2011-6.35V17.9l-11-6.35L3%2017.9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   --fx-glow: rgba(255, 255, 255, 0.07);
 }
-/* Drifting greyscale soccer balls */
+/* Breathing hexagon panel mesh */
 .welcome::before {
   content: "";
   position: absolute;
-  inset: -40px;
+  inset: -60px;
   z-index: -2;
-  background-image: var(--fx-ball);
-  background-size: 92px 92px;
-  opacity: 0.07;
-  animation: sb-roll 48s linear infinite;
+  background-image: var(--fx-hex);
+  background-size: 44px 77px;
+  transform-origin: center;
+  animation: sb-breathe 9s ease-in-out infinite alternate;
 }
 /* Soft top glow for depth */
 .welcome::after {
@@ -312,14 +312,20 @@ img {
   z-index: -1;
   background: radial-gradient(70% 130% at 50% 0%, var(--fx-glow), transparent 70%);
 }
-@keyframes sb-roll {
+@keyframes sb-breathe {
+  from {
+    transform: scale(1);
+    opacity: 0.05;
+  }
   to {
-    background-position: 184px 92px;
+    transform: scale(1.06);
+    opacity: 0.1;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .welcome::before {
     animation: none;
+    opacity: 0.07;
   }
 }
 .welcome .eyebrow {
