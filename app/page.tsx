@@ -25,9 +25,9 @@ export default async function HomePage() {
   return (
     <div className="container">
       <section className="welcome">
-        <div className="eyebrow">Welcome to SoccerBulletin</div>
+        <div className="eyebrow">Global football, one place</div>
         <h1>
-          The beautiful game, <em>covered</em> end to end ⚽
+          Your front row seat to <em>world football</em>
         </h1>
       </section>
 
