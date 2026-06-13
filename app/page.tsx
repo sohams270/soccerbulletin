@@ -79,11 +79,7 @@ export default async function HomePage() {
             {TEAMS.map((t) => (
               <Link key={t.slug} href={`/team/${t.slug}`} className="team-pill">
                 <span className="team-crest" aria-hidden>
-                  {t.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
-                    .slice(0, 3)}
+                  <img src={`/logos/${t.slug}.png`} alt="" loading="lazy" />
                 </span>
                 <span>{t.name}</span>
               </Link>

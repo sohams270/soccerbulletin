@@ -586,11 +586,14 @@ img {
   margin: 0 auto 8px;
   display: grid;
   place-items: center;
-  color: #fff;
-  background: var(--ink);
-  font-weight: 800;
-  font-size: 18px;
+  background: #fff;
   border: 2px solid var(--line);
+  overflow: hidden;
+}
+.team-crest img {
+  width: 74%;
+  height: 74%;
+  object-fit: contain;
 }
 .team-pill span {
   font-size: 11px;
