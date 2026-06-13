@@ -375,6 +375,13 @@ img {
   vertical-align: -2px;
   border: 1px solid var(--line);
 }
+.section-head h2 .head-icon {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin-right: 9px;
+  vertical-align: -4px;
+}
 .section-head .see-all {
   color: var(--brand);
   font-size: 13px;

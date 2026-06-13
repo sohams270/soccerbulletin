@@ -155,9 +155,13 @@ function CategoryStrip({
     <section style={{ marginBottom: 36 }}>
       <div className="section-head">
         <h2>
-          {hasFlag && (
+          {hasFlag ? (
             <img className="flag" src={`/flags/${slug}.svg`} alt="" aria-hidden />
-          )}
+          ) : slug === "international" ? (
+            <FootballIcon />
+          ) : slug === "transfers" ? (
+            <TransferIcon />
+          ) : null}
           {title}
         </h2>
         <Link href={`/category/${slug}`} className="see-all">
@@ -170,5 +174,39 @@ function CategoryStrip({
         ))}
       </div>
     </section>
+  );
+}
+
+function FootballIcon() {
+  return (
+    <svg
+      className="head-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="9" />
+      <polygon points="12,7 16,10 14.5,15 9.5,15 8,10" fill="currentColor" stroke="none" />
+      <path d="M12 3v4M21 9.5l-5 .5M18 18l-3.5-3M6 18l3.5-3M3 9.5l5 .5" />
+    </svg>
+  );
+}
+
+function TransferIcon() {
+  return (
+    <svg
+      className="head-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.9}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M4 8h13l-3.5-3.5M20 16H7l3.5 3.5" />
+    </svg>
   );
 }
