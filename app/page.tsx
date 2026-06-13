@@ -10,11 +10,14 @@ import { timeAgo } from "@/lib/format";
 export const revalidate = 60; // REVALIDATE.home
 
 export default async function HomePage() {
-  const [latest, transferStrip, plStrip] = await Promise.all([
+  const [latest, ...categoryArticles] = await Promise.all([
     getLatestArticles(20),
-    getArticlesByCategory("transfers", 4),
-    getArticlesByCategory("premier-league", 4),
+    ...CATEGORIES.map((c) => getArticlesByCategory(c.slug, 4)),
   ]);
+  const strips = CATEGORIES.map((category, i) => ({
+    category,
+    articles: categoryArticles[i],
+  }));
 
   const lead = latest.find((a) => a.featured) ?? latest[0];
   const rest = latest.filter((a) => a.slug !== lead?.slug);
@@ -120,12 +123,14 @@ export default async function HomePage() {
       </div>
 
       {/* Category strips */}
-      <CategoryStrip title="Transfer News" slug="transfers" articles={transferStrip} />
-      <CategoryStrip
-        title="Premier League News"
-        slug="premier-league"
-        articles={plStrip}
-      />
+      {strips.map(({ category, articles }) => (
+        <CategoryStrip
+          key={category.slug}
+          title={category.name}
+          slug={category.slug}
+          articles={articles}
+        />
+      ))}
     </div>
   );
 }
