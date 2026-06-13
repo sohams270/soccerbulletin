@@ -277,8 +277,8 @@ img {
 
 /* ---------- Welcome banner ---------- */
 .welcome {
-  --fx-line: rgba(0, 0, 0, 0.06);
-  --fx-glow: rgba(0, 0, 0, 0.1);
+  --fx-ball: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Ccircle%20cx='32'%20cy='32'%20r='29'%20fill='none'%20stroke='%23000'%20stroke-width='2.4'/%3E%3Cpolygon%20points='32,17%2044,26%2039,40%2025,40%2020,26'%20fill='%23000'/%3E%3Cpath%20d='M32%203V17M61%2024L44%2026M48%2058L39%2040M16%2058L25%2040M3%2024L20%2026'%20stroke='%23000'%20stroke-width='2.4'%20fill='none'/%3E%3C/svg%3E");
+  --fx-glow: rgba(0, 0, 0, 0.06);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -290,53 +290,35 @@ img {
   margin: 24px 0;
 }
 [data-theme="dark"] .welcome {
-  --fx-line: rgba(255, 255, 255, 0.07);
-  --fx-glow: rgba(255, 255, 255, 0.12);
+  --fx-ball: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Ccircle%20cx='32'%20cy='32'%20r='29'%20fill='none'%20stroke='%23fff'%20stroke-width='2.4'/%3E%3Cpolygon%20points='32,17%2044,26%2039,40%2025,40%2020,26'%20fill='%23fff'/%3E%3Cpath%20d='M32%203V17M61%2024L44%2026M48%2058L39%2040M16%2058L25%2040M3%2024L20%2026'%20stroke='%23fff'%20stroke-width='2.4'%20fill='none'/%3E%3C/svg%3E");
+  --fx-glow: rgba(255, 255, 255, 0.07);
 }
-/* Marching diagonal pitch lines */
+/* Drifting greyscale soccer balls */
 .welcome::before {
   content: "";
   position: absolute;
-  inset: -50%;
+  inset: -40px;
   z-index: -2;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent 0,
-    transparent 26px,
-    var(--fx-line) 26px,
-    var(--fx-line) 28px
-  );
-  animation: sb-stripes 7s linear infinite;
+  background-image: var(--fx-ball);
+  background-size: 92px 92px;
+  opacity: 0.07;
+  animation: sb-roll 48s linear infinite;
 }
-/* Drifting greyscale glow */
+/* Soft top glow for depth */
 .welcome::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(40% 60% at 20% 30%, var(--fx-glow), transparent 70%),
-    radial-gradient(45% 65% at 85% 70%, var(--fx-glow), transparent 70%);
-  animation: sb-drift 14s ease-in-out infinite alternate;
+  background: radial-gradient(70% 130% at 50% 0%, var(--fx-glow), transparent 70%);
 }
-@keyframes sb-stripes {
+@keyframes sb-roll {
   to {
-    transform: translateX(40px);
-  }
-}
-@keyframes sb-drift {
-  from {
-    transform: translate(-6%, -4%) scale(1);
-    opacity: 0.7;
-  }
-  to {
-    transform: translate(6%, 4%) scale(1.15);
-    opacity: 1;
+    background-position: 184px 92px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .welcome::before,
-  .welcome::after {
+  .welcome::before {
     animation: none;
   }
 }
