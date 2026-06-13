@@ -27,7 +27,7 @@ export default async function HomePage() {
       <section className="welcome">
         <div className="eyebrow">Global football, one place</div>
         <h1>
-          Your front row seat to <em>world football</em>
+          Your Front Row Seat to <em>World Football</em>
         </h1>
       </section>
 
