@@ -366,6 +366,7 @@ img {
   margin: 0;
 }
 .section-head h2 .flag {
+  display: inline-block;
   width: 26px;
   height: 18px;
   object-fit: cover;
