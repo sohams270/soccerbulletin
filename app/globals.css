@@ -110,8 +110,10 @@ img {
 /* ---------- Header search ---------- */
 .search {
   position: relative;
-  flex: 1;
+  flex: 0 1 460px;
   max-width: 460px;
+  /* Push the search + toggle cluster to the right edge of the header. */
+  margin-left: auto;
 }
 .search-form {
   display: flex;
@@ -234,6 +236,8 @@ img {
   }
   .search {
     max-width: none;
+    flex: 1;
+    margin-left: 0;
   }
   .search-form {
     padding: 7px 12px;
