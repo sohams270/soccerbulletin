@@ -566,7 +566,8 @@ img {
 /* ---------- Team rail ---------- */
 .team-rail {
   display: flex;
-  gap: 22px;
+  justify-content: space-between;
+  gap: 10px;
   overflow-x: auto;
   padding: 8px 0 4px;
   scrollbar-width: none;
@@ -577,7 +578,7 @@ img {
 .team-pill {
   text-align: center;
   flex: 0 0 auto;
-  width: 76px;
+  width: 72px;
 }
 .team-crest {
   width: 58px;
