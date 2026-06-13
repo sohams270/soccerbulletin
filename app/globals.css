@@ -591,9 +591,11 @@ img {
   overflow: hidden;
 }
 .team-crest img {
-  width: 74%;
-  height: 74%;
+  width: 86%;
+  height: 86%;
   object-fit: contain;
+  object-position: center;
+  display: block;
 }
 .team-pill span {
   font-size: 11px;
