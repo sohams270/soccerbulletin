@@ -277,8 +277,8 @@ img {
 
 /* ---------- Welcome banner ---------- */
 .welcome {
-  --fx-hex: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='28'%20height='49'%20viewBox='0%200%2028%2049'%3E%3Cg%20fill-rule='evenodd'%3E%3Cg%20fill='%23000'%3E%3Cpath%20d='M13.99%209.25l13%207.5v15l-13%207.5L1%2031.75v-15l12.99-7.5zM3%2017.9v12.7l11%206.35%2011-6.35V17.9l-11-6.35L3%2017.9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  --fx-glow: rgba(0, 0, 0, 0.06);
+  --fx-a: rgba(0, 0, 0, 0.07);
+  --fx-b: rgba(0, 0, 0, 0.05);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -290,42 +290,33 @@ img {
   margin: 24px 0;
 }
 [data-theme="dark"] .welcome {
-  --fx-hex: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='28'%20height='49'%20viewBox='0%200%2028%2049'%3E%3Cg%20fill-rule='evenodd'%3E%3Cg%20fill='%23fff'%3E%3Cpath%20d='M13.99%209.25l13%207.5v15l-13%207.5L1%2031.75v-15l12.99-7.5zM3%2017.9v12.7l11%206.35%2011-6.35V17.9l-11-6.35L3%2017.9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  --fx-glow: rgba(255, 255, 255, 0.07);
+  --fx-a: rgba(255, 255, 255, 0.09);
+  --fx-b: rgba(255, 255, 255, 0.06);
 }
-/* Breathing hexagon panel mesh */
+/* Slow drifting greyscale light */
 .welcome::before {
   content: "";
   position: absolute;
-  inset: -60px;
-  z-index: -2;
-  background-image: var(--fx-hex);
-  background-size: 44px 77px;
-  transform-origin: center;
-  animation: sb-breathe 9s ease-in-out infinite alternate;
-}
-/* Soft top glow for depth */
-.welcome::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+  inset: -30%;
   z-index: -1;
-  background: radial-gradient(70% 130% at 50% 0%, var(--fx-glow), transparent 70%);
+  background:
+    radial-gradient(38% 55% at 25% 35%, var(--fx-a), transparent 60%),
+    radial-gradient(42% 60% at 80% 60%, var(--fx-b), transparent 60%),
+    radial-gradient(50% 70% at 55% 90%, var(--fx-a), transparent 65%);
+  animation: sb-drift 22s ease-in-out infinite alternate;
+  will-change: transform;
 }
-@keyframes sb-breathe {
+@keyframes sb-drift {
   from {
-    transform: scale(1);
-    opacity: 0.05;
+    transform: translate(-5%, -4%) scale(1);
   }
   to {
-    transform: scale(1.06);
-    opacity: 0.1;
+    transform: translate(5%, 4%) scale(1.12);
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .welcome::before {
     animation: none;
-    opacity: 0.07;
   }
 }
 .welcome .eyebrow {
