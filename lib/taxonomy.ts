@@ -21,28 +21,15 @@ export function getCategory(slug: string): Category | undefined {
 }
 
 export const TEAMS: Team[] = [
-  // Premier League
   { slug: "arsenal", name: "Arsenal", category: "premier-league" },
   { slug: "manchester-city", name: "Manchester City", category: "premier-league" },
-  { slug: "liverpool", name: "Liverpool", category: "premier-league" },
-  { slug: "manchester-united", name: "Manchester United", category: "premier-league" },
   { slug: "chelsea", name: "Chelsea", category: "premier-league" },
-  // La Liga
   { slug: "real-madrid", name: "Real Madrid", category: "la-liga" },
+  { slug: "manchester-united", name: "Manchester United", category: "premier-league" },
   { slug: "barcelona", name: "Barcelona", category: "la-liga" },
-  { slug: "atletico-madrid", name: "Atletico Madrid", category: "la-liga" },
-  // Bundesliga
-  { slug: "bayern-munich", name: "Bayern Munich", category: "bundesliga" },
-  { slug: "borussia-dortmund", name: "Borussia Dortmund", category: "bundesliga" },
-  { slug: "bayer-leverkusen", name: "Bayer Leverkusen", category: "bundesliga" },
-  // Ligue 1
-  { slug: "psg", name: "Paris Saint-Germain", category: "ligue-1" },
-  { slug: "marseille", name: "Olympique Marseille", category: "ligue-1" },
-  { slug: "monaco", name: "AS Monaco", category: "ligue-1" },
-  // Saudi Pro League
   { slug: "al-nassr", name: "Al Nassr", category: "saudi-pro-league" },
-  { slug: "al-hilal", name: "Al Hilal", category: "saudi-pro-league" },
-  { slug: "al-ittihad", name: "Al Ittihad", category: "saudi-pro-league" },
+  { slug: "bayern-munich", name: "Bayern Munich", category: "bundesliga" },
+  { slug: "psg", name: "Paris Saint-Germain", category: "ligue-1" },
 ];
 
 export function getTeam(slug: string): Team | undefined {
