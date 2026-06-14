@@ -694,6 +694,12 @@ img {
   position: sticky;
   top: 88px;
 }
+/* Drop the side rails down so their boxes line up with the headline (the
+   article's content), not the category eyebrow above it. */
+.article-toc-rail,
+.article-aside {
+  margin-top: 46px;
+}
 @media (max-width: 1080px) {
   .article-layout {
     grid-template-columns: minmax(0, 1fr) 300px;
@@ -708,6 +714,10 @@ img {
   }
   .toc-sticky {
     position: static;
+  }
+  .article-toc-rail,
+  .article-aside {
+    margin-top: 0;
   }
 }
 
