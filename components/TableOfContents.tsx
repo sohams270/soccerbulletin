@@ -45,7 +45,7 @@ export default function TableOfContents({ items }: { items: TocEntry[] }) {
 
   return (
     <nav className="toc" aria-label="Table of contents">
-      <span className="toc-title">On this page</span>
+      <span className="toc-title">Table of Contents</span>
       <ul>
         {items.map((item) => (
           <li key={item.id} className={item.level === 3 ? "toc-sub" : ""}>
