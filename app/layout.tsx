@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SocialShare from "@/components/SocialShare";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://soccerbulletin.example"),
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body>
         <Header />
         <main>{children}</main>
+        <SocialShare />
         <Footer />
       </body>
     </html>
