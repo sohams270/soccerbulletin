@@ -1,5 +1,5 @@
 import "server-only";
-import type { Article } from "./types";
+import type { Article, Comment } from "./types";
 import { supabase } from "./supabase";
 
 /**
@@ -29,6 +29,7 @@ interface Row {
   published_at: string;
   read_minutes: number;
   featured: boolean;
+  views?: number;
 }
 
 function fromRow(r: Row): Article {
@@ -46,6 +47,7 @@ function fromRow(r: Row): Article {
     publishedAt: r.published_at,
     readMinutes: r.read_minutes,
     featured: r.featured,
+    views: r.views ?? 0,
   };
 }
 
@@ -109,4 +111,71 @@ export async function searchArticles(query: string, limit = 20): Promise<Article
   });
   if (error) throw new Error(`supabase search failed: ${error.message}`);
   return (data as Row[]).map(fromRow);
+}
+
+/**
+ * Most-viewed articles, popular first (ties break on recency). Drives the
+ * homepage "Editor's Pick". Falls back to recency if the `views` column or
+ * index isn't present yet (i.e. before the schema migration is applied).
+ */
+export async function readMostViewed(limit = 10): Promise<Article[]> {
+  const { data, error } = await supabase()
+    .from(TABLE)
+    .select("*")
+    .order("views", { ascending: false })
+    .order("published_at", { ascending: false })
+    .limit(limit);
+  if (error) return (await readAllArticles()).slice(0, limit);
+  return (data as Row[]).map(fromRow);
+}
+
+/** Atomically bump an article's view counter. No-op on failure. */
+export async function incrementViews(slug: string): Promise<void> {
+  try {
+    await supabase().rpc("increment_views", { article_slug: slug });
+  } catch {
+    /* migration not applied yet — ignore */
+  }
+}
+
+function commentFromRow(r: {
+  id: number;
+  article_slug: string;
+  author: string;
+  body: string;
+  created_at: string;
+}): Comment {
+  return {
+    id: r.id,
+    articleSlug: r.article_slug,
+    author: r.author,
+    body: r.body,
+    createdAt: r.created_at,
+  };
+}
+
+/** Comments for one article, newest first. Returns [] if the table is absent. */
+export async function readComments(slug: string): Promise<Comment[]> {
+  const { data, error } = await supabase()
+    .from("comments")
+    .select("*")
+    .eq("article_slug", slug)
+    .order("created_at", { ascending: false });
+  if (error) return [];
+  return (data as Parameters<typeof commentFromRow>[0][]).map(commentFromRow);
+}
+
+/** Insert a comment and return it. Throws on failure so the API can 4xx/5xx. */
+export async function addComment(
+  slug: string,
+  author: string,
+  body: string
+): Promise<Comment> {
+  const { data, error } = await supabase()
+    .from("comments")
+    .insert({ article_slug: slug, author, body })
+    .select("*")
+    .single();
+  if (error) throw new Error(`supabase comment insert failed: ${error.message}`);
+  return commentFromRow(data as Parameters<typeof commentFromRow>[0]);
 }

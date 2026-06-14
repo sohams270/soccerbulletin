@@ -22,6 +22,16 @@ export interface Article {
   publishedAt: string; // ISO string
   readMinutes: number;
   featured: boolean;
+  /** Cumulative view count; drives the homepage "Editor's Pick". */
+  views: number;
+}
+
+export interface Comment {
+  id: number;
+  articleSlug: string;
+  author: string;
+  body: string;
+  createdAt: string; // ISO string
 }
 
 export interface Category {

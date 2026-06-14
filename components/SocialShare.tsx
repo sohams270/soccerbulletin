@@ -25,11 +25,27 @@ const LABELS: Record<string, string> = {
   snapchat: "Snapchat",
 };
 
-export default function SocialShare() {
+interface SocialShareProps {
+  /** Link to share. Defaults to the site origin. */
+  url?: string;
+  /** Text used in share intents. Defaults to a generic site message. */
+  title?: string;
+  /** Heading shown above the icons. */
+  label?: string;
+  /** "bar" = full-width footer bar; "inline" = compact in-article row. */
+  variant?: "bar" | "inline";
+}
+
+export default function SocialShare({
+  url,
+  title,
+  label = "Share SoccerBulletin",
+  variant = "bar",
+}: SocialShareProps = {}) {
   const [copied, setCopied] = useState(false);
 
   const siteUrl = () =>
-    typeof window !== "undefined" ? window.location.origin : "";
+    url ?? (typeof window !== "undefined" ? window.location.origin : "");
 
   const copyLink = async (note = "Link copied!") => {
     const url = siteUrl();
@@ -59,7 +75,7 @@ export default function SocialShare() {
     const url = siteUrl();
     const u = encodeURIComponent(url);
     const text = encodeURIComponent(
-      "Check out SoccerBulletin — your front row seat to world football"
+      title ?? "Check out SoccerBulletin — your front row seat to world football"
     );
     const intents: Record<string, string> = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
@@ -78,8 +94,11 @@ export default function SocialShare() {
   };
 
   return (
-    <section className="share-bar" aria-label="Share SoccerBulletin">
-      <span className="share-label">Share SoccerBulletin</span>
+    <section
+      className={`share-bar${variant === "inline" ? " share-inline" : ""}`}
+      aria-label={label}
+    >
+      <span className="share-label">{label}</span>
       <div className="share-icons">
         {PLATFORMS.map((p) => (
           <button

@@ -48,6 +48,7 @@ export async function createArticle(input: NewArticleInput): Promise<Article> {
     publishedAt: now,
     readMinutes: input.readMinutes ?? Math.max(2, Math.round(input.content.split(/\s+/).length / 200)),
     featured: input.featured ?? false,
+    views: 0,
   };
 
   await insertArticle(article);

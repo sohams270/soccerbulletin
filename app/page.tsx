@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { getArticlesByCategory, getLatestArticles, REVALIDATE } from "@/lib/data";
+import {
+  getArticlesByCategory,
+  getLatestArticles,
+  getMostViewedArticles,
+  REVALIDATE,
+} from "@/lib/data";
 import { CATEGORIES, TEAMS } from "@/lib/taxonomy";
 import { ArticleCard, SideItem } from "@/components/Cards";
 import { timeAgo } from "@/lib/format";
@@ -19,8 +24,9 @@ const FLAG_SLUGS = new Set([
 ]);
 
 export default async function HomePage() {
-  const [latest, ...categoryArticles] = await Promise.all([
+  const [latest, mostViewed, ...categoryArticles] = await Promise.all([
     getLatestArticles(20),
+    getMostViewedArticles(5),
     ...CATEGORIES.map((c) => getArticlesByCategory(c.slug, 4)),
   ]);
   const strips = CATEGORIES.map((category, i) => ({
@@ -28,11 +34,15 @@ export default async function HomePage() {
     articles: categoryArticles[i],
   }));
 
-  const lead = latest.find((a) => a.featured) ?? latest[0];
+  // The hero/lead is always the most recently published article (latest[0],
+  // since getLatestArticles returns newest-first).
+  const lead = latest[0];
   const rest = latest.filter((a) => a.slug !== lead?.slug);
   const latestGrid = rest.slice(0, 8);
   const mustRead = rest.slice(8, 13);
-  const editorPick = rest[13] ?? rest[0];
+  // Editor's Pick = most-viewed article (skip the lead to avoid duplication).
+  const editorPick =
+    mostViewed.find((a) => a.slug !== lead?.slug) ?? rest[0] ?? lead;
 
   return (
     <div className="container">

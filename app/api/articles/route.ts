@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readAllArticles } from "@/lib/store";
+import { readAllArticles, readMostViewed } from "@/lib/store";
 import { createArticle } from "@/lib/articles";
 import { revalidateForArticle } from "@/lib/revalidate";
 import type { CategorySlug } from "@/lib/types";
@@ -18,7 +18,13 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category") as CategorySlug | null;
   const team = searchParams.get("team");
+  const sort = searchParams.get("sort");
   const limit = Number(searchParams.get("limit") ?? 50);
+
+  // sort=views returns the most-viewed articles (ranked in the database).
+  if (sort === "views") {
+    return NextResponse.json(await readMostViewed(limit));
+  }
 
   let articles = await readAllArticles();
   if (category) articles = articles.filter((a) => a.category === category);

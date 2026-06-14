@@ -1,6 +1,6 @@
 import "server-only";
 import type { Article, CategorySlug } from "./types";
-import { readAllArticles } from "./store";
+import { readAllArticles, readMostViewed } from "./store";
 import { TAG_ARTICLES, tagArticle, tagCategory, tagTeam } from "./tags";
 
 /**
@@ -95,6 +95,16 @@ export async function getArticlesByCategory(
     REVALIDATE.category,
     async () =>
       (await readAllArticles()).filter((a) => a.category === category).slice(0, limit)
+  );
+}
+
+/** Most-viewed articles (popular first). Drives the homepage "Editor's Pick". */
+export async function getMostViewedArticles(limit = 10): Promise<Article[]> {
+  return load(
+    `/articles?sort=views&limit=${limit}`,
+    [TAG_ARTICLES],
+    REVALIDATE.home,
+    async () => readMostViewed(limit)
   );
 }
 

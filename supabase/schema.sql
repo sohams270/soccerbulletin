@@ -17,9 +17,37 @@ create table if not exists public.articles (
   featured     bool not null default false
 );
 
+-- Popularity counter (drives the homepage "Editor's Pick" = most viewed).
+alter table public.articles
+  add column if not exists views integer not null default 0;
+
 create index if not exists articles_published_idx on public.articles (published_at desc);
 create index if not exists articles_category_idx  on public.articles (category);
 create index if not exists articles_team_idx      on public.articles (team);
+create index if not exists articles_views_idx     on public.articles (views desc);
+
+-- Atomic, race-free view increment. Called from POST /api/views on each read.
+create or replace function public.increment_views(article_slug text)
+returns void
+language sql
+volatile
+as $$
+  update public.articles set views = views + 1 where slug = article_slug;
+$$;
+
+-- Reader comments for the individual article pages.
+create table if not exists public.comments (
+  id           bigint generated always as identity primary key,
+  article_slug text not null references public.articles(slug) on delete cascade,
+  author       text not null,
+  body         text not null,
+  created_at   timestamptz not null default now()
+);
+
+create index if not exists comments_article_idx
+  on public.comments (article_slug, created_at desc);
+
+alter table public.comments enable row level security;
 
 -- Weighted full-text vector. Weights map to the old in-JS scoring:
 --   A = title (highest), B = excerpt + team, C = category, D = content + author.
